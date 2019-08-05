@@ -14,10 +14,27 @@ If you find an issue, please [let us know](../..//issues)!
 
 ## Setup
 
+### Option 1 - Without plugins
+
+To install without compiling plugins, call the following
+
 ```bash
 git clone https://github.com/NVIDIA-AI-IOT/torch2trt
 cd torch2trt
 sudo python setup.py install
+```
+
+### Option 2 - With plugins (experimental)
+
+To install with plugins to support some operations in PyTorch that are not natviely supported with TensorRT, call the following
+
+> This currently only includes a plugin for ``torch.nn.functional.interpolate``
+
+```bash
+sudo apt-get install libprotobuf* protobuf-compiler ninja-build
+git clone https://github.com/NVIDIA-AI-IOT/torch2trt
+cd torch2trt
+sudo python setup.py install --plugins
 ```
 
 > torch2trt is tested against a system configured with the [JetCard](http://github.com/NVIDIA-AI-IOT/jetcard) setup.  Different system configurations may require additional steps.
@@ -44,13 +61,13 @@ model_trt = torch2trt(model, [x])
 
 ### Execute
 
-We can execute returned ``TRTModule`` just like the original PyTorch model
+We can execute the returned ``TRTModule`` just like the original PyTorch model
 
 ```python
 y = model(x)
 y_trt = model_trt(x)
 
-# check the output against 
+# check the output against PyTorch
 print(torch.max(torch.abs(y - y_trt)))
 ```
 
@@ -151,5 +168,6 @@ Please see [this folder](torch2trt/converters) for more examples.
 
 - [JetBot](http://github.com/NVIDIA-AI-IOT/jetbot) - An educational AI robot based on NVIDIA Jetson Nano
 
+- [JetRacer](http://github.com/NVIDIA-AI-IOT/jetracer) - An educational AI racecar using NVIDIA Jetson Nano
 - [JetCam](http://github.com/NVIDIA-AI-IOT/jetcam) - An easy to use Python camera interface for NVIDIA Jetson
 - [JetCard](http://github.com/NVIDIA-AI-IOT/jetcard) - An SD card image for web programming AI projects with NVIDIA Jetson Nano
